@@ -68,3 +68,10 @@ th {
 .dark-mode td {
     border-color: #555;
 }
+.highlight {
+    background-color: lightblue;
+}
+
+.dark-mode .highlight {
+    background-color: #555;
+}
