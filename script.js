@@ -443,6 +443,91 @@ const data = [
 ];
 
 
+let table = document.getElementById("player-rows");
+let search = document.getElementById("search");
+let teamFilter = document.getElementById("team-filter");
+
+// Add teams to the dropdown
+let teams = [];
+
+for (let i = 0; i < data.length; i++) {
+    if (!teams.includes(data[i].team)) {
+        teams.push(data[i].team);
+
+        let option = document.createElement("option");
+        option.value = data[i].team;
+        option.textContent = data[i].team;
+
+        teamFilter.appendChild(option);
+    }
+}
+
+// Display players
+function showPlayers() {
+
+    table.innerHTML = "";
+
+    for (let i = 0; i < data.length; i++) {
+
+        let player = data[i];
+
+        let matchName = player.name.toLowerCase().includes(search.value.toLowerCase());
+
+        let matchTeam = teamFilter.value === "all" ||
+                        player.team === teamFilter.value;
+
+        if (matchName && matchTeam) {
+
+            let row = document.createElement("tr");
+
+            let values = [
+                player.name,
+                player.team,
+                player.points,
+                player.rebounds,
+                player.assists
+            ];
+
+            for (let j = 0; j < values.length; j++) {
+
+                let cell = document.createElement("td");
+                cell.textContent = values[j];
+                row.appendChild(cell);
+            }
+
+            table.appendChild(row);
+        }
+    }
+}
+
+// Search event
+search.addEventListener("input", showPlayers);
+
+// Filter event
+teamFilter.addEventListener("change", showPlayers);
+
+// Dark mode event
+document.getElementById("dark-mode-toggle").addEventListener("click", function() {
+    document.body.classList.toggle("dark-mode");
+});
+
+// Mouseover event
+table.addEventListener("mouseover", function(event) {
+    if (event.target.tagName === "TD") {
+        event.target.parentElement.classList.add("highlight");
+    }
+});
+
+// Mouseout event
+table.addEventListener("mouseout", function(event) {
+    if (event.target.tagName === "TD") {
+        event.target.parentElement.classList.remove("highlight");
+    }
+});
+
+// Display players when the page loads
+showPlayers();
+
 
 
 
